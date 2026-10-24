@@ -207,4 +207,5 @@ a:focus-visible, button:focus-visible, input:focus-visible { outline: 2px solid 
   .hands { width: 180%; height: 112.5vw; top: calc(78% - 60vw); }
   .trust li + li::before { margin: 0 .7em; }
   .trust li { font-size: .68rem; }
-}
+  
+    }
