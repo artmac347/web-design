@@ -1,0 +1,2 @@
+Ilagay dito ang lahat ng files ng NEXORA website mo (index.html, css, js, images).
+Pwede mong i-delete ang text file na ito pagkatapos.

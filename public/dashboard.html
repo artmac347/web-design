@@ -1,0 +1,28 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Dashboard</title>
+  <link rel="stylesheet" href="/static/style.css" />
+</head>
+<body>
+  <div class="card">
+    <h1 id="hello">Hello!</h1>
+    <p class="sub">Naka-login ka na. Dito mo ilagay ang laman ng app mo.</p>
+    <button id="logout">Logout</button>
+  </div>
+
+  <script>
+    fetch("/api/me")
+      .then((r) => (r.ok ? r.json() : Promise.reject()))
+      .then((u) => (document.getElementById("hello").textContent = "Hello, " + u.username + "!"))
+      .catch(() => (location.href = "/login"));
+
+    document.getElementById("logout").addEventListener("click", async () => {
+      await fetch("/api/logout", { method: "POST" });
+      location.href = "/login";
+    });
+  </script>
+</body>
+</html>

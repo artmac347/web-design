@@ -1,0 +1,62 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Register</title>
+  <link rel="stylesheet" href="/static/style.css" />
+</head>
+<body>
+  <form class="card" id="form" autocomplete="on">
+    <h1>Gumawa ng account</h1>
+    <p class="sub">Mabilis lang, local lang ito.</p>
+
+    <label for="username">Username</label>
+    <input id="username" name="username" autocomplete="username" required minlength="3" maxlength="20" />
+
+    <label for="password">Password (8+ characters)</label>
+    <input id="password" name="password" type="password" autocomplete="new-password" required minlength="8" />
+
+    <label for="confirm">Ulitin ang password</label>
+    <input id="confirm" name="confirm" type="password" autocomplete="new-password" required />
+
+    <div class="error" id="error" role="alert"></div>
+    <button type="submit" id="btn">Register</button>
+
+    <div class="alt">May account na? <a href="/login">Login</a></div>
+  </form>
+
+  <script>
+    const form = document.getElementById("form");
+    const err = document.getElementById("error");
+    const btn = document.getElementById("btn");
+
+    form.addEventListener("submit", async (e) => {
+      e.preventDefault();
+      err.textContent = "";
+      if (form.password.value !== form.confirm.value) {
+        err.textContent = "Hindi magkapareho ang password.";
+        return;
+      }
+      btn.disabled = true;
+      try {
+        const res = await fetch("/api/register", {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify({
+            username: form.username.value,
+            password: form.password.value,
+          }),
+        });
+        const data = await res.json();
+        if (res.ok) location.href = "/dashboard";
+        else err.textContent = data.error || "May error.";
+      } catch {
+        err.textContent = "Hindi maabot ang server.";
+      } finally {
+        btn.disabled = false;
+      }
+    });
+  </script>
+</body>
+</html>

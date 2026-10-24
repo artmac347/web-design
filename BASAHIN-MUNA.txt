@@ -1,0 +1,13 @@
+PAANO PAGANAHIN (Windows)
+
+1. I-extract (Extract All) ang zip na ito. Makukuha mo ang folder na "local-login".
+2. Ilipat ang lahat ng files ng NEXORA mo (index.html, css, js, images)
+   sa loob ng folder na "site".
+3. Sa index.html mo, gawing <a href="/login">Login</a> ang Login button.
+4. Buksan ang folder sa VS Code (File > Open Folder).
+5. Terminal > New Terminal, tapos i-type:
+      npm install
+      npm start
+6. Buksan sa browser: http://localhost:3000
+
+Kailangan ng Node.js (LTS): https://nodejs.org

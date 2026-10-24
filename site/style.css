@@ -9,16 +9,12 @@
 * { box-sizing: border-box; margin: 0; padding: 0; }
 html { scroll-behavior: smooth; }
 
-body {
-  font-family: var(--body);
-  color: var(--ink);
-  background: var(--paper);
-}
+body { font-family: var(--body); color: var(--ink); background: var(--paper); }
 
 a { color: inherit; text-decoration: none; }
-a:focus-visible { outline: 2px solid var(--ink); outline-offset: 3px; border-radius: 6px; }
+a:focus-visible, button:focus-visible, input:focus-visible { outline: 2px solid var(--ink); outline-offset: 3px; border-radius: 6px; }
 
-/* HERO */
+/* ===== HERO ===== */
 .hero {
   position: relative;
   min-height: 100vh;
@@ -28,7 +24,6 @@ a:focus-visible { outline: 2px solid var(--ink); outline-offset: 3px; border-rad
   isolation: isolate;
 }
 
-/* halftone stipple, denser toward the edges and the top */
 .hero::before {
   content: "";
   position: absolute;
@@ -40,14 +35,13 @@ a:focus-visible { outline: 2px solid var(--ink); outline-offset: 3px; border-rad
   -webkit-mask-image:
     radial-gradient(ellipse 55% 60% at 50% 55%, transparent 40%, #000 100%),
     linear-gradient(#000, transparent 35%);
-  -webkit-mask-composite: source-over;
   mask-image:
     radial-gradient(ellipse 55% 60% at 50% 55%, transparent 40%, #000 100%),
     linear-gradient(#000, transparent 35%);
   pointer-events: none;
 }
 
-/* NAV */
+/* ===== NAV ===== */
 .nav {
   position: relative;
   z-index: 5;
@@ -61,24 +55,31 @@ a:focus-visible { outline: 2px solid var(--ink); outline-offset: 3px; border-rad
 .links { display: flex; gap: 26px; font-size: .92rem; font-weight: 500; }
 .links a:hover { text-decoration: underline; text-underline-offset: 4px; }
 .actions { margin-left: auto; display: flex; align-items: center; gap: 20px; font-size: .92rem; font-weight: 500; }
+.login { cursor: pointer; }
+.login:hover { text-decoration: underline; text-underline-offset: 4px; }
+.user-box { display: inline-flex; align-items: center; gap: 10px; }
+.linklike { background: none; border: 0; font: inherit; color: var(--ink-soft); cursor: pointer; text-decoration: underline; text-underline-offset: 4px; }
 
-/* BUTTONS */
+/* ===== BUTTONS ===== */
 .btn {
   display: inline-flex;
   align-items: center;
+  justify-content: center;
   gap: 10px;
   padding: 11px 22px;
+  border: 0;
   border-radius: 999px;
   background: var(--ink);
   color: #fff;
-  font-weight: 500;
-  font-size: .92rem;
+  font: 500 .92rem var(--body);
+  cursor: pointer;
   transition: background .2s;
 }
 .btn:hover { background: #2a2a30; }
 .btn-lg { padding: 14px 26px; font-size: .98rem; }
+.btn-block { width: 100%; margin-top: 8px; }
 
-/* HEADLINE */
+/* ===== HEADLINE ===== */
 .hero-content {
   position: relative;
   z-index: 4;
@@ -93,37 +94,36 @@ a:focus-visible { outline: 2px solid var(--ink); outline-offset: 3px; border-rad
   font-size: clamp(3.4rem, 9vw, 7.2rem);
   line-height: .92;
   letter-spacing: -0.01em;
-  color: var(--ink);
 }
 .hero-content p {
   margin: 22px auto 26px;
-  max-width: 440px;
+  max-width: 460px;
   font-size: 1rem;
   line-height: 1.5;
   color: var(--ink-soft);
 }
 
-/* HANDS: big, full width, sits in the lower middle like the reference.
-   Image is 960x600 (hands centered at ~53% of its height). */
+/* ===== HANDS =====
+   Size: change width/height together (width 120% = height 75vw).
+   Position: bigger % in "top" = lower hands. */
 .hands {
   position: absolute;
-  left: 0;
-  width: 100%;
-  height: 62.5vw;                    /* 600/960 of the width */
-  top: calc(72% - 33vw);             /* puts the hands' centre at ~62% of the hero */
+  left: 50%;
+  width: 120%;
+  height: 75vw;
+  top: calc(86% - 40vw);
   z-index: 1;
   background: url("web-des.jpg") center / 100% 100% no-repeat;
   mix-blend-mode: multiply;
   filter: contrast(1.25) brightness(1.02);
-  pointer-events: none;
-}
-/* fade the image edges into the paper */
-.hands {
   -webkit-mask-image: linear-gradient(to bottom, transparent 0, #000 18%, #000 82%, transparent 100%);
   mask-image: linear-gradient(to bottom, transparent 0, #000 18%, #000 82%, transparent 100%);
+  pointer-events: none;
+  transform: translate3d(calc(-50% + var(--px, 0px)), var(--py, 0px), 0);
+  transition: transform .25s ease-out;
 }
 
-/* TRUST STRIP */
+/* ===== "WHAT I DO" STRIP ===== */
 .trust {
   position: absolute;
   left: 0; right: 0; bottom: 0;
@@ -131,68 +131,80 @@ a:focus-visible { outline: 2px solid var(--ink); outline-offset: 3px; border-rad
   padding: 0 5vw 26px;
   text-align: center;
 }
-.trust p { font-size: .75rem; color: #6a6a70; margin-bottom: 16px; }
+.trust p { font-size: .75rem; color: #6a6a70; margin-bottom: 14px; }
 .trust ul {
   list-style: none;
   display: flex;
   flex-wrap: wrap;
   align-items: center;
   justify-content: center;
-  gap: 14px 5vw;
+  gap: 10px 0;
+}
+.trust li {
+  font-size: .8rem;
+  font-weight: 600;
+  letter-spacing: .08em;
+  text-transform: uppercase;
+  white-space: nowrap;
+}
+.trust li + li::before { content: "•"; margin: 0 1.1em; color: #8a8a90; }
+
+/* ===== LOGIN POPUP ===== */
+.modal {
+  margin: auto;
+  width: min(92vw, 400px);
+  padding: 32px 28px 24px;
+  border: 0;
+  border-radius: 22px;
+  background: #fff;
   color: var(--ink);
+  box-shadow: 0 30px 80px rgba(0,0,0,.35);
 }
-.trust li { font-size: 1rem; line-height: 1; white-space: nowrap; }
-.l-mercury { font-family: "Space Mono", monospace; font-weight: 700; font-size: .78rem; letter-spacing: .18em; }
-.l-ramp    { font-weight: 600; font-size: 1.2rem; letter-spacing: -0.02em; }
-.l-hex     { font-family: var(--display); font-weight: 800; font-size: 1.5rem; letter-spacing: .02em; }
-.l-vercel  { font-weight: 600; font-size: 1.1rem; }
-.l-vercel span { font-size: .85em; margin-right: 6px; }
-.l-descript{ font-weight: 600; font-size: .95rem; }
-.l-cash    { font-weight: 600; font-size: .95rem; }
-.l-super   { font-family: var(--display); font-weight: 800; font-size: .95rem; line-height: .9; text-align: center; letter-spacing: .04em; }
-.l-runway  { font-weight: 600; font-size: 1rem; }
-
-/* MOBILE */
-@media (max-width: 720px) {
-  .links { display: none; }
-  .nav { gap: 16px; }
-  .hands {
-    left: -40%;
-    width: 180%;
-    height: 112.5vw;
-    top: calc(60% - 60vw);
-  }
-  .trust ul { gap: 12px 24px; }
-  .l-super, .l-descript { display: none; }
+.modal::backdrop { background: rgba(13,13,15,.55); backdrop-filter: blur(4px); }
+.modal form { position: relative; display: grid; gap: 14px; }
+.modal h2 { font-family: var(--display); font-size: 2.4rem; line-height: 1; }
+.modal-sub { color: var(--ink-soft); font-size: .92rem; margin-top: -8px; }
+.modal label { display: grid; gap: 6px; font-size: .82rem; font-weight: 600; }
+.modal input {
+  padding: 12px 14px;
+  border: 1.5px solid #cfd2d8;
+  border-radius: 12px;
+  font: 400 .95rem var(--body);
+  background: #f7f8f9;
 }
-
-@media (prefers-reduced-motion: reduce) {
-  html { scroll-behavior: auto; }
+.modal input:focus { border-color: var(--ink); background: #fff; }
+.modal-note { font-size: .72rem; color: #7a7a80; text-align: center; }
+.modal-close {
+  position: absolute;
+  top: -14px; right: -10px;
+  width: 34px; height: 34px;
+  border: 0; border-radius: 50%;
+  background: #eceef1;
+  font-size: 1.3rem; line-height: 1;
+  cursor: pointer;
 }
+.modal-close:hover { background: #dfe2e6; }
 
-/* ===== MOTION (CSS only intro) ===== */
+/* ===== INTRO ANIMATION (pure CSS) ===== */
 @keyframes rise {
   from { opacity: 0; transform: translateY(24px); }
   to   { opacity: 1; transform: none; }
 }
-@keyframes fadeIn {
-  from { opacity: 0; }
-  to   { opacity: 1; }
-}
+@keyframes fadeIn { from { opacity: 0; } to { opacity: 1; } }
 
 .nav               { animation: rise .9s cubic-bezier(.2,.7,.2,1) .10s both; }
 .hero-content h1   { animation: rise .9s cubic-bezier(.2,.7,.2,1) .25s both; }
 .hero-content p    { animation: rise .9s cubic-bezier(.2,.7,.2,1) .45s both; }
 .hero-content .btn { animation: rise .9s cubic-bezier(.2,.7,.2,1) .60s both; }
 .trust             { animation: rise .9s cubic-bezier(.2,.7,.2,1) 1.10s both; }
+.hands             { animation: fadeIn 1.6s ease .7s both; }
 
-.hands {
-  animation: fadeIn 1.6s ease .7s both;
-  transform: translate3d(var(--px, 0px), var(--py, 0px), 0);
-  transition: transform .25s ease-out;
-}
-
-@media (prefers-reduced-motion: reduce) {
-  .nav, .hero-content h1, .hero-content p,
-  .hero-content .btn, .trust, .hands { animation: none; }
+/* ===== MOBILE ===== */
+@media (max-width: 720px) {
+  .links { display: none; }
+  .nav { gap: 16px; }
+  .actions { gap: 14px; }
+  .hands { width: 180%; height: 112.5vw; top: calc(78% - 60vw); }
+  .trust li + li::before { margin: 0 .7em; }
+  .trust li { font-size: .68rem; }
 }
